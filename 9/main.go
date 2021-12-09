@@ -8,8 +8,11 @@ import (
 )
 
 var mapp [][]int
+var baisinSum int
+var alreadyCounted [][]bool
 
 func main() {
+	bigBabo1, bigBabo2, bigBabo3 := 0, 0, 0
 	sum := 0
 	for i, x := range mapp {
 		for j, num := range x {
@@ -36,12 +39,28 @@ func main() {
 				sum++
 				sum += num
 
+				baisinSum = 0
+				alreadyCounted = make([][]bool, 100)
+				for i, _ := range mapp {
+					alreadyCounted[i] = make([]bool, 100)
+				}
 				expand(i, j)
+				if baisinSum > bigBabo1 {
+					bigBabo3 = bigBabo2
+					bigBabo2 = bigBabo1
+					bigBabo1 = baisinSum
+				} else if baisinSum > bigBabo2 {
+					bigBabo3 = bigBabo2
+					bigBabo2 = baisinSum
+				} else if baisinSum > bigBabo3 {
+					bigBabo3 = baisinSum
+				}
 			}
 
 		}
 	}
 	fmt.Println("one", sum)
+	fmt.Println("two", bigBabo1*bigBabo2*bigBabo3)
 }
 
 func surrounding(x, y int) (xs []int, ys []int) {
@@ -65,11 +84,16 @@ func surrounding(x, y int) (xs []int, ys []int) {
 	return
 }
 
-func expand(x, y int) (int, bool) {
-	xs, ys := surrounding(x, y)
-
-	for i, x := range xs {
-		sum, done := expand(x, ys[i])
+func expand(x, y int) {
+	if mapp[x][y] != 9 {
+		baisinSum++
+		alreadyCounted[x][y] = true
+		xs, ys := surrounding(x, y)
+		for i, x1 := range xs {
+			if !alreadyCounted[x1][ys[i]] {
+				expand(x1, ys[i])
+			}
+		}
 	}
 }
 
