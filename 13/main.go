@@ -24,17 +24,15 @@ type fold struct {
 func main() {
 	fillMapp()
 	fmt.Println(len(mapp), len(mapp[0]))
-	/*for i, f := range folds {
+	for i, f := range folds {
 		foldIt(f)
 		if i == 0 {
 			c := count()
 			fmt.Println("one", c)
 		}
-	}*/
-	foldIt(folds[0])
-	foldIt(folds[1])
+	}
 
-	/*for _, y := range mapp {
+	for _, y := range mapp {
 		for _, x := range y {
 			if x {
 				fmt.Print("#")
@@ -43,7 +41,7 @@ func main() {
 			}
 		}
 		fmt.Print("\n")
-	}*/
+	}
 }
 
 func foldIt(f fold) {
@@ -54,13 +52,9 @@ func foldIt(f fold) {
 			newMapp[i] = make([]bool, len(mapp[i]))
 		}
 
-		fmt.Println(len(newMapp), len(newMapp[0]))
-
 		for y := 0; y < f.line; y++ {
 			for x := 0; x < len(newMapp[y]); x++ {
 				if x == 0 {
-					fmt.Println("one", len(mapp)-y-1, x)
-					fmt.Println("two", y, x)
 				}
 				if mapp[y][x] || mapp[len(mapp)-y-1][x] {
 					newMapp[y][x] = true
@@ -79,8 +73,6 @@ func foldIt(f fold) {
 		for y := 0; y < len(newMapp); y++ {
 			for x := 0; x < len(newMapp[y]); x++ {
 				if y == 0 && x < 100000 {
-					//fmt.Println("one", y, len(mapp[y])-x-1)
-					//fmt.Println("two", y, x)
 				}
 				if mapp[y][x] || mapp[y][len(mapp[y])-x-1] {
 					newMapp[y][x] = true
@@ -141,8 +133,8 @@ func init() {
 		coords = append(coords, coord)
 	}
 
-	mapp = make([][]bool, highestX+1)
-	for i := 0; i < (highestX + 1); i++ {
+	mapp = make([][]bool, highestX+2)
+	for i := 0; i < (highestX + 2); i++ {
 		mapp[i] = make([]bool, highestY+1)
 	}
 
